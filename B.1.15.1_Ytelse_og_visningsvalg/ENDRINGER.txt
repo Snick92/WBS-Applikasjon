@@ -1,0 +1,5 @@
+B.1.15.1 – ytelse og visningsvalg
+* Synlige filtreringskontroller over diagrammet
+* Raskere ruting i store prosjekter
+* Linjehopp i mindre, detaljerte visninger
+* Ingen tunge animasjoner i stor oversikt

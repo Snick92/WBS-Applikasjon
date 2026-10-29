@@ -1,0 +1,1 @@
+Fase 4.3: Statusknapper øverst, søk/valgte forgjengere, tydelig plassering ved nye aktiviteter. Testversjon – behold eldre HTML som sikkerhetskopi.

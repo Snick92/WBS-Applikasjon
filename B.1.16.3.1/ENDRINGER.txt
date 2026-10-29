@@ -1,0 +1,9 @@
+WBS Planlegger B.1.16.3.1 – Fase 4.3.1
+
+- Status uten egen overskrift og lys oransje Pågår
+- Navn uten * (feltet kreves fortsatt ved lagring)
+- Ansvarlig uten (valgfritt), forklarende plassholder
+- Kildedata fra Excel nederst over handlingsknappene
+- Kortere og mer kompakte sammenleggbare deler
+- Forgjengersøk og Valgte-filter med robust skjuling og tomtilstand
+- Unødvendig hjelpetekst under forgjengerlisten fjernet

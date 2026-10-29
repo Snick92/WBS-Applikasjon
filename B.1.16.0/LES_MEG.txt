@@ -1,0 +1,1 @@
+WBS Planlegger B.1.16 – fase 4. Åpne HTML-filen i nettleseren. Behold B.1.15.2 som sikkerhetskopi. Ny prosjektoversikt, arbeidsukedager, WBS-grenfilter og fullskjerm for diagrammer. Kapasitetsscenario er kun illustrativt og endrer ikke beregnet kritisk sti.

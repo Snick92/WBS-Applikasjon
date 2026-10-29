@@ -1,0 +1,12 @@
+WBS Planlegger B.1.12.2 – brukervennlighetsrettelser
+
+Åpne index.html i nettleseren.
+
+Endringer fra B.1.12.1:
+- Nøytralt eksempel i ressursnavnfeltet.
+- Sammenleggbare seksjoner for Excel-kildedata, ressurser/fremdrift og risiko.
+- Synlig rullefelt over WBS-tabellen med venstre/høyre-knapper.
+- Opprinnelig rullefelt under tabellen beholdt.
+- Ingen tilsiktede endringer i PERT-, Gantt- eller kritisk-sti-beregningene.
+
+Tips: Lagre prosjektet som JSON før du tester nye versjoner.

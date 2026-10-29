@@ -1,0 +1,7 @@
+WBS Planlegger B.1.12.5
+
+Endring fra B.1.12.4:
+- Fjernet «Flere kolonner ↔» fra rullefeltet.
+- Fjernet prosentindikatoren «X % mot høyre».
+- Beholdt det horisontale rullefeltet nederst, inkludert sticky oppførsel og synkronisering med tabellen.
+- Øvrige funksjoner er uendret.

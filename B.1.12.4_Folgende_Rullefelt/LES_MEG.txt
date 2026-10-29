@@ -1,0 +1,9 @@
+WBS Planlegger B.1.12.4 – Følgende horisontalt rullefelt og PERT-seksjon
+
+Endringer fra B.1.12.2:
+- Horisontal scrollbar er plassert UNDER WBS-tabellen og følger nederst i skjermbildet mens man scroller nedover WBS-panelet.
+- Ekstra pilknapper er fjernet. Bruk scrollbarens egen navigasjon.
+- Scrollområdet synkroniseres med tabellens faktiske bredde, slik at man kan nå helt til høyre.
+- PERT-estimering er nå en sammenleggbar seksjon i redigeringspanelet.
+
+Merk: behold en sikkerhetskopi av forrige versjon og ta JSON-eksport av prosjektet før testing.

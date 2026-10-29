@@ -1,0 +1,5 @@
+WBS Planlegger B.1.12.6
+
+Rettet dobbelt horisontalt rullefelt i WBS-tabellen. Det innebygde rullefeltet er skjult, mens det følgende rullefeltet beholdes. All øvrig kode er uendret fra B.1.12.5.
+
+Åpne HTML-filen i nettleseren. Ta gjerne en JSON-sikkerhetskopi av prosjektet før videre testing.

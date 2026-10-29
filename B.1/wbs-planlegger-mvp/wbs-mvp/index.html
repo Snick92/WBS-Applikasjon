@@ -1,0 +1,431 @@
+<!doctype html>
+<html lang="no">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>WBS Planlegger</title>
+<style>
+:root{--ink:#202833;--muted:#667383;--line:#dce2e8;--bg:#f5f7f9;--panel:#fff;--blue:#2463eb;--blue-light:#edf3ff;--red:#c73535;--red-light:#fff0f0;--green:#217a53;--green-light:#e9f7ef;--amber:#a45d0b;--amber-light:#fff5e7;--radius:12px;font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-size:14px;line-height:1.45}button,input,select,textarea{font:inherit}button{cursor:pointer}.app-header{background:#fff;border-bottom:1px solid var(--line);padding:16px 24px;display:flex;align-items:center;justify-content:space-between;gap:18px;position:sticky;top:0;z-index:5}.brand{display:flex;align-items:center;gap:12px;min-width:190px}.brand-mark{width:38px;height:38px;background:var(--blue-light);color:var(--blue);display:grid;place-items:center;border-radius:10px;font-weight:800;font-size:19px}.brand h1{font-size:17px;line-height:1.2;margin:0}.brand small{display:block;font-size:12px;color:var(--muted);margin-top:3px}.top-actions{display:flex;align-items:center;gap:8px;flex-wrap:wrap}.wrap{max-width:1500px;margin:0 auto;padding:22px 24px 48px}.project-strip{display:flex;align-items:end;gap:14px;flex-wrap:wrap;margin-bottom:18px}.project-name{flex:1;min-width:240px}.field{display:flex;flex-direction:column;gap:5px}.field label{font-size:12px;font-weight:700;color:#536171}.field input,.field select,.field textarea{width:100%;background:white;border:1px solid #cfd6df;border-radius:8px;padding:9px 10px;color:var(--ink);min-width:0;outline:none}.field input:focus,.field select:focus,.field textarea:focus{border-color:var(--blue);box-shadow:0 0 0 3px #2463eb19}.field input:disabled,.field select:disabled{background:#f1f3f5;color:#89929d}.btn{border:1px solid #cfd6df;background:#fff;color:var(--ink);padding:8px 12px;border-radius:8px;font-weight:650;display:inline-flex;align-items:center;gap:7px;justify-content:center;white-space:nowrap}.btn:hover{background:#f6f8fa}.btn.primary{background:var(--blue);border-color:var(--blue);color:#fff}.btn.primary:hover{background:#1c50c7}.btn.danger{color:var(--red);border-color:#e8b7b7}.btn.small{padding:6px 9px;font-size:12px}.btn:disabled{opacity:.45;cursor:not-allowed}.status{font-size:12px;color:var(--green);display:flex;align-items:center;gap:5px;white-space:nowrap}.tabs{display:flex;gap:6px;border-bottom:1px solid var(--line);margin-bottom:18px;overflow:auto}.tab{border:0;background:transparent;padding:12px 15px;color:var(--muted);font-weight:700;white-space:nowrap;border-bottom:3px solid transparent}.tab.active{color:var(--blue);border-bottom-color:var(--blue)}.panel{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:18px;margin-bottom:18px;min-width:0}.panel-head{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;margin-bottom:15px}.panel h2{font-size:17px;margin:0 0 4px}.panel p.sub{margin:0;color:var(--muted);font-size:12px}.button-row{display:flex;gap:7px;flex-wrap:wrap}.stats{display:grid;grid-template-columns:repeat(4,minmax(110px,1fr));gap:12px;margin-bottom:18px}.stat{background:#fff;border:1px solid var(--line);border-radius:10px;padding:13px 15px}.stat .label{color:var(--muted);font-size:12px;font-weight:650}.stat .value{font-size:24px;font-weight:750;line-height:1.25;margin-top:4px}.stat .hint{font-size:11px;color:var(--muted);margin-top:4px}.layout{display:grid;grid-template-columns:minmax(0,1.7fr) minmax(300px,.9fr);gap:16px;align-items:start}.table-wrap{overflow:auto;border:1px solid var(--line);border-radius:9px}.data-table{border-collapse:collapse;width:100%;min-width:830px;font-size:12px}.data-table th{background:#f7f9fb;color:#586575;text-align:left;font-size:11px;text-transform:uppercase;letter-spacing:.03em;padding:10px 9px;white-space:nowrap}.data-table td{padding:9px;border-top:1px solid #edf0f3;vertical-align:middle}.data-table tbody tr{cursor:pointer}.data-table tbody tr:hover{background:#f8faff}.data-table tbody tr.selected{background:#edf3ff;box-shadow:inset 3px 0 var(--blue)}.data-table .critical-tag{color:var(--red);font-weight:750}.data-table .muted{color:var(--muted)}.type-pill{display:inline-block;background:#f0f2f5;color:#4d5865;padding:3px 7px;border-radius:99px;font-size:10px;font-weight:750}.type-pill.task{background:#edf3ff;color:#2157c3}.type-pill.milestone{background:#fff3dd;color:#92540c}.type-pill.group{background:#eff1f4;color:#5d6672}.wbs-name{display:flex;gap:6px;align-items:center}.tree-indent{display:inline-block;flex:none}.item-title{font-weight:650;max-width:250px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.item-id{font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:10px;color:#748090}.editor-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.editor-grid .wide{grid-column:1/-1}.editor-actions{display:flex;gap:7px;margin-top:14px;flex-wrap:wrap}.predecessor-checks{border:1px solid #cfd6df;border-radius:8px;padding:8px;max-height:170px;overflow:auto;background:#fff;display:flex;flex-direction:column;gap:5px}.predecessor-checks label{display:flex;align-items:flex-start;gap:7px;padding:4px;border-radius:5px;font-size:12px;font-weight:400;color:#303b47;cursor:pointer}.predecessor-checks label:hover{background:#f4f7fb}.predecessor-checks input{width:auto;margin-top:3px;flex:none}.predecessor-empty{font-size:12px;color:#788493;padding:5px}.notice{padding:11px 13px;border-radius:9px;font-size:12px;margin:10px 0}.notice.info{background:#eef5ff;color:#234b86}.notice.warn{background:var(--amber-light);color:#87500e}.notice.error{background:var(--red-light);color:#8f2929}.notice.success{background:var(--green-light);color:#1c6847}.validation-list{margin:8px 0 0;padding-left:19px}.validation-list li{margin:4px 0}.hidden{display:none!important}.view{min-width:0}.chart-scroll{overflow:auto;max-width:100%;border:1px solid var(--line);border-radius:9px;background:#fff}.chart-scroll svg{display:block;max-width:none}.chart-legend{display:flex;gap:14px;align-items:center;flex-wrap:wrap;color:var(--muted);font-size:12px;margin-top:12px;line-height:1.6}.legend-dot{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:5px;vertical-align:-1px}.empty{padding:35px 18px;text-align:center;color:var(--muted)}.empty strong{display:block;color:var(--ink);font-size:15px;margin-bottom:7px}.help-text{font-size:11px;color:var(--muted);margin-top:4px}.inline-validation{font-size:12px;margin-top:8px}.footnote{font-size:12px;color:var(--muted);margin:12px 2px}.file-label{position:relative;overflow:hidden}.file-label input{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%}.toast{position:fixed;bottom:18px;right:18px;z-index:10;background:#202833;color:#fff;padding:11px 15px;border-radius:9px;box-shadow:0 6px 24px #0002;max-width:min(420px,calc(100% - 36px));font-size:13px}.toast.error{background:#8d2828}.form-actions{display:flex;gap:8px;justify-content:flex-end;flex-wrap:wrap}.subhead{font-size:13px;font-weight:750;margin:16px 0 8px}.header-project{min-width:190px}.summary-chips{display:flex;gap:8px;flex-wrap:wrap;margin-top:6px}.chip{border:1px solid var(--line);border-radius:99px;padding:4px 8px;font-size:11px;color:var(--muted);background:#fff}.risk-free{display:none}
+#printReport{display:none}
+@media(max-width:980px){.layout{grid-template-columns:1fr}.app-header{align-items:flex-start;flex-direction:column}.top-actions{width:100%}.wrap{padding:15px}.stats{grid-template-columns:repeat(2,minmax(0,1fr))}}@media(max-width:600px){.project-strip{align-items:stretch}.project-name{min-width:100%}.editor-grid{grid-template-columns:1fr}.editor-grid .wide{grid-column:auto}.panel{padding:13px}.top-actions .btn{flex:1}.stats .value{font-size:21px}.brand{min-width:0}}
+@media print{@page{size:A4 landscape;margin:12mm}body{background:#fff}.app-header,.project-strip,.tabs,.no-print,.footnote{display:none!important}.wrap{padding:0;max-width:none}.wrap>.view{display:none!important}#printReport{display:block!important}.chart-scroll{overflow:visible;border:0}.chart-scroll svg,#printReport svg{width:100%;height:auto;max-width:100%}.panel,.stat{break-inside:avoid;border:0}.panel{padding:0}.report-title{font-size:23px;margin:0 0 5px}.report-meta{color:#5b6570;margin-bottom:14px}.report-section{break-inside:avoid;margin:16px 0}.report-table{width:100%;border-collapse:collapse;font-size:9px}.report-table th,.report-table td{border:1px solid #d7dce2;padding:5px;text-align:left}.report-table th{background:#f1f4f7}.report-gantt{overflow:visible}.report-gantt svg{max-height:150mm}.report-small{font-size:10px;color:#596575}}
+</style>
+</head>
+<body>
+<header class="app-header">
+  <div class="brand"><div class="brand-mark">W</div><div><h1>WBS Planlegger</h1><small>Prosjektstruktur · PERT · kritisk sti · Gantt</small></div></div>
+  <div class="top-actions">
+    <span id="saveStatus" class="status">● Lagres lokalt</span>
+    <button class="btn" id="newProjectBtn">＋ Nytt prosjekt</button>
+    <button class="btn" id="demoBtn" title="Laster inn et eksempelprosjekt og erstatter eventuelt prosjektet som er åpent">↻ Last eksempelprosjekt</button>
+    <button class="btn" id="exportProjectBtn">↓ Prosjektfil</button>
+    <label class="btn file-label">↑ Åpne prosjekt<input type="file" id="importProjectInput" accept=".json,application/json"></label>
+  </div>
+</header>
+<main class="wrap">
+  <section class="project-strip">
+    <div class="field project-name"><label for="projectName">Prosjektnavn</label><input id="projectName" type="text" maxlength="120" placeholder="F.eks. Ny nettside"></div>
+    <div class="field" style="width:170px"><label for="projectStart">Planlagt startdato</label><input id="projectStart" type="date"></div>
+    <div class="field" style="width:190px"><label for="workingWeek">Arbeidsuke</label><select id="workingWeek"><option value="mon-fri">Mandag–fredag</option></select></div>
+  </section>
+  <div id="globalValidation"></div>
+  <nav class="tabs no-print" aria-label="Prosjektvisninger">
+    <button class="tab active" data-tab="wbs">1. WBS og estimater</button>
+    <button class="tab" data-tab="network">2. Kritisk sti</button>
+    <button class="tab" data-tab="gantt">3. Gantt</button>
+    <button class="tab" data-tab="export">4. Eksport</button>
+  </nav>
+  <section id="wbsView" class="view active">
+    <div class="stats">
+      <div class="stat"><div class="label">Arbeidspakker</div><div class="value" id="statTasks">0</div><div class="hint">Aktiviteter som kan planlegges</div></div>
+      <div class="stat"><div class="label">Forventet varighet</div><div class="value" id="statDuration">–</div><div class="hint">Arbeidsdager, uten ressursbegrensninger</div></div>
+      <div class="stat"><div class="label">Kritiske aktiviteter</div><div class="value" id="statCritical">–</div><div class="hint">Aktiviteter uten slakk</div></div>
+      <div class="stat"><div class="label">Milepæler</div><div class="value" id="statMilestones">0</div><div class="hint">Punkter med null varighet</div></div>
+    </div>
+    <div class="layout">
+      <section class="panel">
+        <div class="panel-head"><div><h2>Arbeidsnedbrytningsstruktur (WBS)</h2><p class="sub">Velg en rad for å redigere den. Grupper organiserer arbeidet; aktiviteter beregnes i planen.</p></div></div>
+        <div class="button-row no-print" style="margin-bottom:12px">
+          <button class="btn primary" id="addTaskBtn">＋ Aktivitet</button><button class="btn" id="addGroupBtn">＋ Gruppe</button><button class="btn" id="addMilestoneBtn">◆ Milepæl</button>
+        </div>
+        <div class="table-wrap" id="wbsTableWrap"></div>
+        <div id="wbsEmpty" class="empty hidden"><strong>Prosjektet er tomt</strong>Legg til en gruppe, aktivitet eller milepæl for å starte.<div style="margin-top:14px"><button class="btn primary" type="button" id="emptyDemoBtn">↻ Last eksempelprosjekt</button></div></div>
+        <p class="footnote">PERT-varighet beregnes med (O + 4 × M + P) / 6. Bruk samme enhet overalt: arbeidsdager.</p>
+      </section>
+      <aside class="panel no-print">
+        <div class="panel-head"><div><h2 id="editorTitle">Rediger element</h2><p class="sub" id="editorSub">Velg et element i WBS-listen.</p></div></div>
+        <div id="editorEmpty" class="empty"><strong>Ingen element valgt</strong>Velg en rad til venstre, eller opprett et nytt element.</div>
+        <form id="itemForm" class="hidden">
+          <div class="editor-grid">
+            <div class="field wide"><label for="itemName">Navn *</label><input id="itemName" required maxlength="160" placeholder="F.eks. Lage prototype"></div>
+            <div class="field"><label for="itemKind">Type</label><select id="itemKind"><option value="group">Gruppe / delprosjekt</option><option value="task">Aktivitet / arbeidspakke</option><option value="milestone">Milepæl</option></select></div>
+            <div class="field"><label for="itemParent">Overordnet WBS-element</label><select id="itemParent"><option value="">Ingen (øverste nivå)</option></select></div>
+            <div class="field wide"><label for="itemDescription">Beskrivelse / leveranse</label><textarea id="itemDescription" rows="2" maxlength="1200" placeholder="Hva skal være ferdig når arbeidet er gjort?"></textarea></div>
+            <div class="field"><label for="itemO">Optimistisk (O)</label><input id="itemO" type="number" min="0" step="0.25" value="1"></div>
+            <div class="field"><label for="itemM">Mest sannsynlig (M)</label><input id="itemM" type="number" min="0" step="0.25" value="2"></div>
+            <div class="field"><label for="itemP">Pessimistisk (P)</label><input id="itemP" type="number" min="0" step="0.25" value="3"></div>
+            <div class="field"><label for="itemOwner">Ansvarlig (valgfritt)</label><input id="itemOwner" maxlength="100" placeholder="Navn eller rolle"></div>
+            <div class="field wide"><label for="itemPredecessors">Forgjengere</label><div id="itemPredecessors" class="predecessor-checks"><div class="predecessor-empty">Ingen andre aktiviteter å velge ennå.</div></div><div class="help-text">Kryss av alle aktivitetene eller milepælene som må være ferdige først. Grupper kan ikke være forgjengere.</div></div>
+          </div>
+          <div id="formMessage" class="inline-validation"></div>
+          <div class="editor-actions"><button type="submit" class="btn primary">Lagre endringer</button><button type="button" class="btn" id="cancelEditBtn">Avbryt</button><button type="button" class="btn danger" id="deleteItemBtn">Slett</button></div>
+        </form>
+      </aside>
+    </div>
+    <section class="panel" id="validationPanel"><div class="panel-head"><div><h2>Kontroll av planen</h2><p class="sub">Appen sjekker at estimater og avhengigheter kan beregnes.</p></div><span id="validationBadge" class="chip">Kontrollerer …</span></div><div id="validationMessages"></div></section>
+  </section>
+  <section id="networkView" class="view hidden">
+    <div class="panel"><div class="panel-head"><div><h2>Avhengighetsdiagram og kritisk sti</h2><p class="sub">Piler viser rekkefølgen mellom aktiviteter. Flytt nodene for å endre oppsettet – ikke beregningene.</p></div><div class="button-row no-print"><button class="btn" id="resetNetworkBtn">Tilbakestill oppsett</button><button class="btn" id="networkSvgBtn">Eksporter SVG</button><button class="btn" id="networkPngBtn">Eksporter PNG</button></div></div><div id="networkSummary" class="summary-chips"></div><div id="networkChart" class="chart-scroll"><div class="empty"><strong>Ingen diagram ennå</strong>Legg til aktiviteter og definer avhengigheter.</div></div><div class="chart-legend"><span>Fargen i midtfeltet viser WBS-gruppe.</span><span>Røde piler viser kritisk sti; andre piler viser avhengigheter.</span><span>Du kan dra boksene med musen.</span></div></div>
+  </section>
+  <section id="ganttView" class="view hidden">
+    <div class="panel"><div class="panel-head"><div><h2>Gantt-diagram</h2><p class="sub">Tidsplanen beregnes fra PERT-varigheter og avhengigheter. Helger er ikke arbeidsdager.</p></div><div class="button-row no-print"><button class="btn" id="ganttSvgBtn">Eksporter SVG</button><button class="btn" id="ganttPngBtn">Eksporter PNG</button></div></div><div id="ganttSummary" class="summary-chips"></div><div id="ganttChart" class="chart-scroll"><div class="empty"><strong>Ingen tidsplan ennå</strong>Legg til aktiviteter for å lage en Gantt-plan.</div></div><div class="chart-legend"><span><i class="legend-dot" style="background:#c73535"></i>Kritisk aktivitet</span><span><i class="legend-dot" style="background:#477ce5"></i>Aktivitet med slakk</span><span><i class="legend-dot" style="background:#d6942c"></i>Milepæl</span></div></div>
+  </section>
+  <section id="exportView" class="view hidden">
+    <div class="layout">
+      <div class="panel"><h2>Eksporter prosjektet</h2><p class="sub">Eksporter prosjektdata til videre arbeid, deling eller sikkerhetskopi.</p><div class="subhead">Prosjektdata</div><div class="button-row"><button class="btn primary" id="jsonExportBtn">Prosjektfil (JSON)</button><button class="btn" id="csvExportBtn">CSV – åpnes i Excel</button><button class="btn" id="xlsxExportBtn">Excel-arbeidsbok (.xlsx)</button></div><p class="help-text">JSON inneholder hele prosjektet og kan importeres i appen igjen. Excel inneholder en aktivitetstabell med estimater og beregnede tider.</p><div class="subhead">Rapport</div><div class="button-row"><button class="btn" id="printBtn">Skriv ut / lagre som PDF</button><button class="btn" id="ganttSvgExport2">Gantt som SVG</button><button class="btn" id="networkSvgExport2">Kritisk sti som SVG</button></div><p class="help-text">For PDF velger du «Lagre som PDF» i utskriftsdialogen. SVG kan åpnes i nettleser eller redigeres i vektorprogram.</p><div class="subhead">PNG-bilder</div><div class="button-row"><button class="btn" id="ganttPngExport2">Gantt som PNG</button><button class="btn" id="networkPngExport2">Kritisk sti som PNG</button></div></div>
+      <div class="panel"><h2>Prosjektstatus</h2><div id="exportStatus" class="notice info">Status oppdateres automatisk.</div><div class="subhead">Dette er med i MVP-en</div><ul style="padding-left:19px;margin:8px 0;color:#536171;font-size:13px"><li>WBS-grupper, aktiviteter og milepæler</li><li>PERT-estimater og automatisk varighet</li><li>Finish-to-start-avhengigheter</li><li>Validering og sykluskontroll</li><li>Kritisk sti, slakk og Gantt-diagram</li><li>Lokal lagring i nettleseren</li></ul><div class="notice warn">Dataene lagres bare i denne nettleseren. Eksporter en prosjektfil som sikkerhetskopi hvis du vil flytte prosjektet til en annen enhet.</div></div>
+    </div>
+  </section>
+  <section id="printReport" class="hidden"></section>
+  <p class="footnote">MVP-prototype · Ingen konto eller server nødvendig · Ressursbegrensninger er ikke med i beregningen ennå.</p>
+</main>
+<div id="toast" class="toast hidden" role="status" aria-live="polite"></div>
+<script>
+(() => {
+'use strict';
+const STORAGE_KEY='wbs-planner-mvp-v2';
+const LEGACY_STORAGE_KEY='wbs-planner-mvp-v1';
+const $=id=>document.getElementById(id);
+let project, selectedId=null, currentTab='wbs', calculation=null, validation=[], toastTimer=null;
+let networkPositions={};
+const todayISO=()=>{const d=new Date();return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`};
+const uid=()=>`A${String(project.nextId++).padStart(3,'0')}`;
+const escapeHtml=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const cleanNumber=v=>Number.isFinite(Number(v))?Number(v):0;
+const fmt=n=>Number.isFinite(n)?(Math.round(n*100)/100).toLocaleString('nb-NO',{maximumFractionDigits:2}):'–';
+const formatDate=d=>d instanceof Date&&!isNaN(d)?d.toLocaleDateString('nb-NO',{day:'2-digit',month:'2-digit',year:'numeric'}):'–';
+const dateAtOffset=(startStr,offset)=>{let d=new Date(`${startStr||todayISO()}T12:00:00`);if(isNaN(d))d=new Date();let whole=Math.floor(Math.max(0,offset)+1e-8);let guard=0;while(whole>0&&guard++<4000){d.setDate(d.getDate()+1);if(d.getDay()!==0&&d.getDay()!==6)whole--;}return d};
+const estimate=item=>item.kind==='milestone'?0:(cleanNumber(item.o)+4*cleanNumber(item.m)+cleanNumber(item.p))/6;
+const standardDeviation=item=>item.kind==='milestone'?0:(cleanNumber(item.p)-cleanNumber(item.o))/6;
+const kindName=k=>({group:'Gruppe',task:'Aktivitet',milestone:'Milepæl'}[k]||k);
+function newProject(name='Nytt prosjekt'){return {schemaVersion:1,name,startDate:todayISO(),workingWeek:'mon-fri',nextId:1,items:[],networkPositions:{}}}
+function demoProject(){const p=newProject('Eksempel: Planlegge en nettside');p.startDate=todayISO();const add=(kind,name,parentId='',o=1,m=1.5,pes=2,predecessors=[],description='',owner='')=>{const id=`A${String(p.nextId++).padStart(3,'0')}`;p.items.push({id,kind,name,parentId,description,o,m,p:pes,predecessors,owner});return id};const g1=add('group','1. Planlegging');const g2=add('group','2. Design og utvikling');const g3=add('group','3. Testing og lansering');const a=add('task','Avklare krav',g1,1,2,3,[],'Samle behov og godkjenne omfang','Prosjektleder');const b=add('task','Lage prosjektplan',g1,1,1.5,2,[a],'Bryte ned arbeidet og bli enige om planen','Prosjektleder');const c=add('milestone','Plan godkjent',g1,0,0,0,[b],'Prosjektplan godkjent');const d=add('task','Skissere brukeropplevelse',g2,2,3,5,[c],'Lage skisser og brukerflyt','Designer');const e=add('task','Utforme visuell design',g2,2,4,6,[d],'Lage ferdig design','Designer');const f=add('task','Bygge nettside',g2,4,6,10,[e],'Implementere nettsiden','Utvikler');const h=add('task','Skrive innhold',g2,2,3,5,[c],'Produsere tekst og bilder','Redaktør');const i=add('task','Teste nettsiden',g3,1,2,4,[f,h],'Teste funksjon, innhold og mobilvisning','Tester');const j=add('milestone','Klar for lansering',g3,0,0,0,[i],'Godkjent for lansering');const k=add('task','Publisere nettsiden',g3,0.5,1,2,[j],'Publisere og kontrollere drift','Utvikler');p.items=p.items;return p;}
+function saveLocal(){try{localStorage.setItem(STORAGE_KEY,JSON.stringify(project));$('saveStatus').textContent='● Lagret lokalt';$('saveStatus').style.color='var(--green)';}catch(e){$('saveStatus').textContent='● Lagring feilet';$('saveStatus').style.color='var(--red)';}}
+function toast(msg,isError=false){const el=$('toast');el.textContent=msg;el.classList.toggle('error',isError);el.classList.remove('hidden');clearTimeout(toastTimer);toastTimer=setTimeout(()=>el.classList.add('hidden'),3400)}
+function normalizeProject(p){if(!p||!Array.isArray(p.items))throw new Error('Dette ser ikke ut som en gyldig WBS-prosjektfil.');const out={schemaVersion:1,name:String(p.name||'Importert prosjekt'),startDate:/^\d{4}-\d{2}-\d{2}$/.test(p.startDate||'')?p.startDate:todayISO(),workingWeek:'mon-fri',nextId:Math.max(1,Number(p.nextId)||1),items:[],networkPositions:p.networkPositions&&typeof p.networkPositions==='object'?p.networkPositions:{}};const ids=new Set();for(const raw of p.items){if(!raw||typeof raw!=='object')continue;let id=String(raw.id||'');if(!id||ids.has(id))throw new Error('Prosjektet inneholder manglende eller dupliserte ID-er.');ids.add(id);const kind=['group','task','milestone'].includes(raw.kind)?raw.kind:'task';out.items.push({id,kind,name:String(raw.name||'(uten navn)'),parentId:String(raw.parentId||''),description:String(raw.description||''),o:cleanNumber(raw.o),m:cleanNumber(raw.m),p:cleanNumber(raw.p),predecessors:Array.isArray(raw.predecessors)?raw.predecessors.map(String):[],owner:String(raw.owner||'')});}out.nextId=Math.max(out.nextId,...out.items.map(it=>Number(it.id.replace(/\D/g,''))+1||1));return out;}
+function getItem(id){return project.items.find(i=>i.id===id)}
+function hierarchy(){const byId=new Map(project.items.map(i=>[i.id,i]));const children=new Map();project.items.forEach(i=>{const p=byId.get(i.parentId);if(p&&p.kind==='group'){if(!children.has(p.id))children.set(p.id,[]);children.get(p.id).push(i);} });const ordered=[];const visited=new Set();function visit(item,depth,path){if(visited.has(item.id))return;visited.add(item.id);ordered.push({item,depth,code:path});const kids=(children.get(item.id)||[]).slice().sort((a,b)=>project.items.indexOf(a)-project.items.indexOf(b));kids.forEach((child,idx)=>visit(child,depth+1,path?`${path}.${idx+1}`:`${idx+1}`));}const roots=project.items.filter(i=>!byId.get(i.parentId)||byId.get(i.parentId).kind!=='group');roots.forEach((it,idx)=>visit(it,0,String(idx+1)));project.items.filter(i=>!visited.has(i.id)).forEach((it,idx)=>visit(it,0,`?${idx+1}`));return ordered;}
+function validateAndCalculate(){const errors=[],warnings=[];const ids=new Set(project.items.map(i=>i.id));const byId=new Map(project.items.map(i=>[i.id,i]));const sched=project.items.filter(i=>i.kind!=='group');
+  project.items.forEach(it=>{if(!it.name.trim())errors.push(`${it.id}: Navn kan ikke være tomt.`);if(it.parentId){const par=byId.get(it.parentId);if(!par)errors.push(`${it.id}: Overordnet element ${it.parentId} finnes ikke.`);else if(par.kind!=='group')errors.push(`${it.id}: Bare grupper kan inneholde WBS-elementer.`);if(it.parentId===it.id)errors.push(`${it.id}: Et element kan ikke være sin egen forelder.`);}
+    if(it.kind==='task'){if(![it.o,it.m,it.p].every(v=>Number.isFinite(Number(v))&&Number(v)>=0))errors.push(`${it.id}: PERT-estimatene må være tall på 0 eller mer.`);else if(Number(it.o)>Number(it.m)||Number(it.m)>Number(it.p))errors.push(`${it.id}: Estimatene må oppfylle O ≤ M ≤ P.`);else if(Number(it.o)===0&&Number(it.p)===0)warnings.push(`${it.id}: Aktiviteten har varighet 0. Bruk gjerne en milepæl hvis dette er et kontrollpunkt.`);}
+    const seen=new Set();for(const pred of (it.predecessors||[])){if(seen.has(pred)){warnings.push(`${it.id}: Forgjengeren ${pred} er oppført flere ganger.`);continue;}seen.add(pred);if(!ids.has(pred))errors.push(`${it.id}: Forgjengeren ${pred} finnes ikke.`);else if(pred===it.id)errors.push(`${it.id}: En aktivitet kan ikke være sin egen forgjenger.`);else if(byId.get(pred)?.kind==='group')errors.push(`${it.id}: ${pred} er en gruppe; koble til en aktivitet eller milepæl.`);}
+  });
+  // Detect loops in WBS parent links separately.
+  for(const it of project.items){let cur=it,seen=new Set();while(cur?.parentId){if(seen.has(cur.id)){errors.push(`${it.id}: Sirkulær struktur i WBS-foreldrene.`);break;}seen.add(cur.id);cur=byId.get(cur.parentId);if(!cur)break;}}
+  const succ=new Map(sched.map(i=>[i.id,[]]));const preds=new Map(sched.map(i=>[i.id,(i.predecessors||[]).filter(id=>byId.has(id)&&byId.get(id).kind!=='group')]));for(const it of sched){for(const pred of preds.get(it.id)||[]){if(succ.has(pred))succ.get(pred).push(it.id);}}
+  const indeg=new Map(sched.map(i=>[i.id,(preds.get(i.id)||[]).filter(id=>succ.has(id)).length]));const queue=sched.filter(i=>indeg.get(i.id)===0).map(i=>i.id);const topo=[];while(queue.length){const id=queue.shift();topo.push(id);for(const s of succ.get(id)||[]){indeg.set(s,indeg.get(s)-1);if(indeg.get(s)===0)queue.push(s);}}
+  if(topo.length!==sched.length){errors.push('Avhengighetene inneholder en sirkel. Endre pilene slik at aktivitetene får en mulig rekkefølge.');}
+  if(errors.length){return {ok:false,errors,warnings,items:new Map(),topo:[],duration:0,critical:[],sched,succ,preds};}
+  const results=new Map();for(const id of topo){const it=byId.get(id);const pr=preds.get(id)||[];const es=pr.reduce((max,p)=>Math.max(max,results.get(p)?.ef||0),0);const dur=estimate(it);results.set(id,{id,duration:dur,es,ef:es+dur,ls:0,lf:0,slack:0,critical:false,predecessors:pr,successors:succ.get(id)||[]});}
+  const duration=topo.reduce((m,id)=>Math.max(m,results.get(id).ef),0);for(const id of [...topo].reverse()){const r=results.get(id);const s=r.successors;const lf=s.length?Math.min(...s.map(sid=>results.get(sid).ls)):duration;r.lf=lf;r.ls=lf-r.duration;r.slack=Math.max(0,r.ls-r.es);r.critical=Math.abs(r.slack)<1e-7;}
+  return {ok:true,errors,warnings,items:results,topo,duration,critical:topo.filter(id=>results.get(id).critical),sched,succ,preds};
+}
+function getWbsCode(item){const h=hierarchy().find(h=>h.item.id===item.id);return h?.code||'–'}
+function sortedPred(item){return (item.predecessors||[]).filter(id=>getItem(id)).join(', ')}
+function renderWbs(){const ordered=hierarchy();const rows=ordered.map(({item,depth,code})=>{const r=calculation?.items?.get(item.id);const isCrit=!!r?.critical&&calculation?.ok;return `<tr data-id="${escapeHtml(item.id)}" class="${selectedId===item.id?'selected':''}"><td><div class="item-id">${escapeHtml(code)} · ${escapeHtml(item.id)}</div></td><td><div class="wbs-name"><span class="tree-indent" style="width:${depth*15}px"></span><span class="item-title" title="${escapeHtml(item.name)}">${item.kind==='milestone'?'◆ ':item.kind==='group'?'▰ ':''}${escapeHtml(item.name||'(uten navn)')}</span></div></td><td><span class="type-pill ${item.kind}">${kindName(item.kind)}</span></td><td>${item.kind==='task'?fmt(item.o):'–'}</td><td>${item.kind==='task'?fmt(item.m):'–'}</td><td>${item.kind==='task'?fmt(item.p):'–'}</td><td><strong>${item.kind==='task'?fmt(estimate(item))+' d':item.kind==='milestone'?'0 d':'–'}</strong></td><td>${item.kind==='task'?fmt(standardDeviation(item))+' d':item.kind==='milestone'?'0 d':'–'}</td><td>${escapeHtml(sortedPred(item)||'–')}</td><td>${isCrit?'<span class="critical-tag">Kritisk</span>':r&&calculation?.ok?fmt(r.slack)+' d':'–'}</td></tr>`}).join('');$('wbsTableWrap').innerHTML=ordered.length?`<table class="data-table"><thead><tr><th>WBS / ID</th><th>Element</th><th>Type</th><th>O</th><th>M</th><th>P</th><th>PERT</th><th>SD</th><th>Forgjengere</th><th>Slakk</th></tr></thead><tbody>${rows}</tbody></table>`:'';$('wbsEmpty').classList.toggle('hidden',ordered.length>0);$('wbsTableWrap').classList.toggle('hidden',ordered.length===0);$('wbsTableWrap').querySelectorAll('tbody tr').forEach(tr=>tr.addEventListener('click',()=>selectItem(tr.dataset.id)));$('statTasks').textContent=project.items.filter(i=>i.kind==='task').length;$('statMilestones').textContent=project.items.filter(i=>i.kind==='milestone').length;$('statDuration').textContent=calculation?.ok?`${fmt(calculation.duration)} d`:'–';$('statCritical').textContent=calculation?.ok?calculation.critical.filter(id=>getItem(id)?.kind==='task').length:'–';}
+function renderEditor(){const it=getItem(selectedId);$('editorEmpty').classList.toggle('hidden',!!it);$('itemForm').classList.toggle('hidden',!it);if(!it){$('editorTitle').textContent='Rediger element';$('editorSub').textContent='Velg et element i WBS-listen.';return;}$('editorTitle').textContent=`Rediger ${it.id}`;$('editorSub').textContent=`${kindName(it.kind)} · ${getWbsCode(it)}`;$('itemName').value=it.name;$('itemKind').value=it.kind;$('itemDescription').value=it.description||'';$('itemO').value=it.o;$('itemM').value=it.m;$('itemP').value=it.p;$('itemOwner').value=it.owner||'';populateParents(it);populatePredecessors(it);updateKindFields();$('formMessage').textContent='';}
+function populateParents(it){const options=project.items.filter(i=>i.kind==='group'&&i.id!==it.id&&!isDescendant(i.id,it.id)).map(i=>`<option value="${escapeHtml(i.id)}">${escapeHtml(i.id)} · ${escapeHtml(i.name)}</option>`).join('');$('itemParent').innerHTML='<option value="">Ingen (øverste nivå)</option>'+options;$('itemParent').value=it.parentId||'';}
+function isDescendant(candidateId,ancestorId){let p=getItem(candidateId),seen=new Set();while(p?.parentId&&!seen.has(p.id)){if(p.parentId===ancestorId)return true;seen.add(p.id);p=getItem(p.parentId);}return false;}
+function populatePredecessors(it){const options=project.items.filter(i=>i.kind!=='group'&&i.id!==it.id).map(i=>`<label><input type="checkbox" value="${escapeHtml(i.id)}" ${((it.predecessors||[]).includes(i.id))?'checked':''}> <span><strong>${escapeHtml(i.id)}</strong> · ${escapeHtml(i.name)} <span style="color:#788493">(${kindName(i.kind)})</span></span></label>`).join('');$('itemPredecessors').innerHTML=options||'<div class="predecessor-empty">Ingen andre aktiviteter å velge ennå.</div>'; }
+function updateKindFields(){const kind=$('itemKind').value;const estimateEnabled=kind==='task';['itemO','itemM','itemP'].forEach(id=>$(id).disabled=!estimateEnabled);$('itemPredecessors').querySelectorAll('input').forEach(input=>input.disabled=kind==='group');if(kind==='milestone'){$('itemO').value='0';$('itemM').value='0';$('itemP').value='0';}if(kind==='group')$('itemPredecessors').querySelectorAll('input').forEach(input=>input.checked=false);}
+function selectItem(id){selectedId=id;renderWbs();renderEditor();}
+function addItem(kind){const id=uid();let parentId='';if(selectedId&&getItem(selectedId)){parentId=getItem(selectedId).kind==='group'?selectedId:(getItem(selectedId).parentId||'');}const item={id,kind,name:kind==='group'?'Ny gruppe':kind==='milestone'?'Ny milepæl':'Ny aktivitet',parentId,description:'',o:kind==='task'?1:0,m:kind==='task'?2:0,p:kind==='task'?3:0,predecessors:[],owner:''};project.items.push(item);selectedId=id;recompute(true);renderAll();$('itemName').focus();$('itemName').select();}
+function deleteSelected(){const it=getItem(selectedId);if(!it)return;const toDelete=new Set([it.id]);let changed=true;while(changed){changed=false;for(const x of project.items){if(x.parentId&&toDelete.has(x.parentId)&&!toDelete.has(x.id)){toDelete.add(x.id);changed=true;}}}if(!confirm(`Slette «${it.name}»${toDelete.size>1?` og ${toDelete.size-1} underliggende element(er)`:''}?`))return;project.items=project.items.filter(x=>!toDelete.has(x.id));project.items.forEach(x=>x.predecessors=(x.predecessors||[]).filter(id=>!toDelete.has(id)));toDelete.forEach(id=>delete project.networkPositions[id]);selectedId=null;recompute(true);renderAll();toast('Elementet er slettet.');}
+function saveItemFromForm(ev){ev.preventDefault();const it=getItem(selectedId);if(!it)return;const oldKind=it.kind;const kind=$('itemKind').value;const name=$('itemName').value.trim();if(!name){$('formMessage').textContent='Skriv inn et navn.';$('formMessage').style.color='var(--red)';return;}if(kind==='task'&&['itemO','itemM','itemP'].some(id=>$(id).value.trim()==='')){$('formMessage').textContent='Fyll ut alle tre PERT-estimatene (O, M og P).';$('formMessage').style.color='var(--red)';return;}const parent=$('itemParent').value;if(parent===it.id||isDescendant(parent,it.id)){ $('formMessage').textContent='Et element kan ikke plasseres under seg selv eller en av sine etterkommere.';$('formMessage').style.color='var(--red)';return;}it.name=name;it.kind=kind;it.parentId=parent;it.description=$('itemDescription').value.trim();it.owner=$('itemOwner').value.trim();if(kind==='task'){it.o=cleanNumber($('itemO').value);it.m=cleanNumber($('itemM').value);it.p=cleanNumber($('itemP').value);}else{it.o=it.m=it.p=0;}it.predecessors=kind==='group'?[]:[...new Set([...$('itemPredecessors').querySelectorAll('input:checked')].map(input=>input.value))];if(oldKind==='group'&&kind!=='group'){const children=project.items.filter(x=>x.parentId===it.id);if(children.length){it.kind='group';$('formMessage').textContent='Denne gruppen inneholder andre elementer. Flytt eller slett disse først hvis du vil endre gruppetypen.';$('formMessage').style.color='var(--red)';toast('En gruppe med underliggende elementer kan ikke gjøres om til aktivitet.',true);recompute(true);renderAll();return;}}if(kind!=='group'){// if this item previously was a group, never keep children under a non-group.
+  const children=project.items.filter(x=>x.parentId===it.id);if(children.length){it.kind='group';toast('Flytt de underliggende elementene før du endrer denne gruppen.',true);recompute(true);renderAll();return;}}
+  recompute(true);renderAll();toast('Endringene er lagret.');}
+function recompute(save=false){calculation=validateAndCalculate();validation=[...calculation.errors.map(message=>({level:'error',message})),...calculation.warnings.map(message=>({level:'warning',message}))];renderValidation();if(save)saveLocal();}
+function renderValidation(){const errors=calculation?.errors||[],warnings=calculation?.warnings||[];const badge=$('validationBadge');badge.textContent=errors.length?`${errors.length} feil`:warnings.length?`${warnings.length} advarsel${warnings.length>1?'er':''}`:'Alt ser bra ut';badge.style.color=errors.length?'var(--red)':warnings.length?'var(--amber)':'var(--green)';let content='';if(errors.length)content+=`<div class="notice error"><strong>Planen kan ikke beregnes ennå.</strong><ul class="validation-list">${errors.map(e=>`<li>${escapeHtml(e)}</li>`).join('')}</ul></div>`;if(warnings.length)content+=`<div class="notice warn"><strong>Sjekk disse punktene:</strong><ul class="validation-list">${warnings.map(e=>`<li>${escapeHtml(e)}</li>`).join('')}</ul></div>`;if(!errors.length&&!warnings.length)content='<div class="notice success">Alle kontroller er bestått. Beregningene er oppdaterte.</div>';if(!project.items.length)content='<div class="notice info">Legg til noen elementer for å kontrollere prosjektplanen.</div>';$('validationMessages').innerHTML=content;$('globalValidation').innerHTML=errors.length?`<div class="notice error" style="margin-top:0">Planen inneholder feil. Diagrammer kan være utdaterte eller utilgjengelige. Se «Kontroll av planen» under WBS.</div>`:'';}
+function escapeXml(s){return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&apos;'}[c]));}
+function svgText(x,y,text,size=12,fill='#26323f',weight=400,anchor='start'){return `<text x="${x}" y="${y}" font-family="Arial, sans-serif" font-size="${size}" fill="${fill}" font-weight="${weight}" text-anchor="${anchor}">${escapeXml(text)}</text>`;}
+function criticalPathIds(){
+  if(!calculation?.ok||!calculation.topo.length)return [];
+  const eps=1e-7;
+  const ends=calculation.topo.filter(id=>{const r=calculation.items.get(id);return r?.critical&&Math.abs(r.ef-calculation.duration)<eps;});
+  if(!ends.length)return [];
+  let current=ends[0],path=[],seen=new Set();
+  while(current&&!seen.has(current)){
+    seen.add(current);path.unshift(current);
+    const r=calculation.items.get(current);
+    const candidates=(calculation.preds.get(current)||[]).filter(pid=>{
+      const pr=calculation.items.get(pid);return pr?.critical&&Math.abs(pr.ef-r.es)<eps;
+    });
+    if(!candidates.length)break;
+    current=candidates[0];
+  }
+  return path;
+}
+function getNetworkCategoryInfo(){
+  const palette=[
+    {fill:'#FFE5CC',line:'#A96B2C'},
+    {fill:'#DCE8F7',line:'#3E70A6'},
+    {fill:'#E3EFDA',line:'#5A8A4A'},
+    {fill:'#F8DECE',line:'#B56B46'},
+    {fill:'#EEE7F5',line:'#8565A9'},
+    {fill:'#EEEEEE',line:'#666666'},
+    {fill:'#F7E7A8',line:'#9B7A19'},
+    {fill:'#D9F0EC',line:'#318477'},
+    {fill:'#F5DDEB',line:'#A34D7D'},
+    {fill:'#E3E4F9',line:'#6266A8'},
+    {fill:'#E6E6E6',line:'#626262'},
+    {fill:'#DDF0D8',line:'#578248'}
+  ];
+  const tree=hierarchy();
+  const roots=tree.filter(x=>x.depth===0).map((x,i)=>({code:x.code,name:x.item.name,color:palette[i%palette.length],item:x.item}));
+  const rootByCode=new Map(roots.map((r,i)=>[r.code,{...r,index:i}]));
+  const infoFor=id=>{
+    const h=tree.find(x=>x.item.id===id);
+    const rootCode=(h?.code||'1').split('.')[0];
+    return rootByCode.get(rootCode)||{code:rootCode,name:'Annet',color:palette[0],index:0};
+  };
+  return {roots,infoFor,tree};
+}
+function renderNetwork(){
+  if(!calculation?.ok||!calculation.sched.length){
+    $('networkChart').innerHTML=`<div class="empty"><strong>${calculation?.errors?.length?'Diagrammet kan ikke beregnes':'Ingen kritisk sti ennå'}</strong>${calculation?.errors?.length?'Rett feilene i WBS-listen først.':'Legg til aktiviteter og definer avhengigheter, eller bruk «Last eksempelprosjekt».'}</div>`;
+    $('networkSummary').innerHTML='';return;
+  }
+  const ids=calculation.topo;
+  const {roots,infoFor,tree}=getNetworkCategoryInfo();
+  const cp=criticalPathIds();
+  const cpSet=new Set(cp);
+  const cpEdges=new Set(cp.slice(1).map((id,i)=>`${cp[i]}->${id}`));
+  const wbsCode=id=>tree.find(x=>x.item.id===id)?.code||id;
+  const orderIndex=new Map(tree.filter(x=>calculation.items.has(x.item.id)).map((x,i)=>[x.item.id,i]));
+  const rank=new Map();
+  for(const id of ids){const ps=calculation.preds.get(id)||[];rank.set(id,ps.length?Math.max(...ps.map(p=>rank.get(p)??0))+1:0);}
+  const groups=new Map();
+  ids.forEach(id=>{const r=rank.get(id);if(!groups.has(r))groups.set(r,[]);groups.get(r).push(id)});
+  for(const list of groups.values())list.sort((a,b)=>(orderIndex.get(a)??0)-(orderIndex.get(b)??0));
+  const maxRank=Math.max(...rank.values(),0);
+  const nodeW=156,topH=20,midH=36,botH=20,nodeH=topH+midH+botH;
+  const colGap=194,rowGap=31,padX=38;
+  const estimatedWidth=Math.max(1080,padX+maxRank*colGap+nodeW+55);
+  const legendStartX=560;
+  const availableLegendWidth=Math.max(420,Math.min(520,estimatedWidth-legendStartX-28));
+  const legendCols=2;
+  const legendCount=Math.min(roots.length,12);
+  const legendRows=Math.max(1,Math.ceil(legendCount/legendCols));
+  const plotTop=Math.max(226,117+legendRows*21+50);
+  const fallbackCoords={};
+  for(const [r,list] of groups){list.forEach((id,i)=>{fallbackCoords[id]={x:padX+r*colGap,y:plotTop+i*(nodeH+rowGap)};});}
+  const coords={};
+  for(const id of ids){
+    const stored=project.networkPositions?.[id];
+    const valid=stored&&Number.isFinite(stored.x)&&Number.isFinite(stored.y)&&stored.x>=0&&stored.y>=plotTop&&stored.x<10000&&stored.y<10000;
+    coords[id]=valid?{x:stored.x,y:stored.y}:fallbackCoords[id];
+  }
+  const graphRight=Math.max(estimatedWidth,...Object.values(coords).map(c=>c.x+nodeW+35));
+  const width=graphRight;
+  const height=Math.max(plotTop+260,...Object.values(coords).map(c=>c.y+nodeH+48));
+  let svg=`<svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${height}" viewBox="0 0 ${width} ${height}" role="img" aria-label="Kritisk sti med tidligste og seneste tider"><defs>`;
+  svg+=`<marker id="arrow-critical" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L8,4 L0,8 z" fill="#d10f0f"/></marker>`;
+  roots.forEach((r,i)=>{svg+=`<marker id="arrow-package-${i}" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L8,4 L0,8 z" fill="${r.color.line}"/></marker>`;});
+  svg+='</defs><rect width="100%" height="100%" fill="#fff"/>';
+  // Header block, styled after the supplied critical-path reference.
+  svg+=svgText(28,36,'Critical Path',26,'#111111',750);
+  svg+=svgText(29,59,`Oppstart ${formatDate(new Date(`${project.startDate}T12:00:00`))}`,12,'#111111',400);
+  const pathLabel=cp.map(wbsCode).join(' → ');
+  const pathMax=width>1450?105:width>1200?76:55;
+  const shownPath=pathLabel.length>pathMax?pathLabel.slice(0,pathMax-1)+'…':pathLabel;
+  svg+=svgText(390,31,`Critical Path: ${shownPath||'–'}`,width>1300?13:11,'#111111',700);
+  svg+=svgText(390,57,`Total varighet: ${fmt(calculation.duration)} arbeidsdager`,13,'#111111',700);
+  svg+=`<line x1="25" y1="77" x2="${width-25}" y2="77" stroke="#d7dce2"/>`;
+  // Sample activity box showing ES / DR / EF above and LS / TF / LF below.
+  const lx=31,ly=94,lw=156,cw=52;
+  const topColors=['#8CCB64','#D7D7D7','#8CCB64'];
+  const bottomColors=['#19B8E8','#F5A052','#19B8E8'];
+  ['ES','DR','EF'].forEach((t,i)=>{const x=lx+i*cw;svg+=`<rect x="${x}" y="${ly}" width="${cw}" height="20" fill="${topColors[i]}" stroke="#303030" stroke-width=".8"/>`;svg+=svgText(x+cw/2,ly+14,t,10,'#111',700,'middle');});
+  svg+=`<rect x="${lx}" y="${ly+20}" width="${lw}" height="32" fill="#F1F1F1" stroke="#303030" stroke-width=".8"/>`;
+  svg+=svgText(lx+lw/2,ly+40,'WBS / aktivitet',10,'#111',700,'middle');
+  ['LS','TF','LF'].forEach((t,i)=>{const x=lx+i*cw;svg+=`<rect x="${x}" y="${ly+52}" width="${cw}" height="20" fill="${bottomColors[i]}" stroke="#303030" stroke-width=".8"/>`;svg+=svgText(x+cw/2,ly+66,t,10,'#111',700,'middle');});
+  svg+=svgText(205,112,'ES = Tidligste start · DR = Varighet · EF = Tidligste slutt',11,'#303030',500);
+  svg+=svgText(205,134,'LS = Seneste start · TF = Total slakk · LF = Seneste slutt',11,'#303030',500);
+  svg+=svgText(205,156,'Farge i midtfeltet = WBS-gruppe / arbeidspakke',10,'#596575',400);
+  // Group colours use the first WBS level, as in the supplied diagram.
+  for(let i=0;i<legendCount;i++){
+    const root=roots[i],col=i%legendCols,row=Math.floor(i/legendCols);
+    const colW=availableLegendWidth/legendCols;
+    const x=legendStartX+col*colW,y=104+row*21;
+    svg+=`<rect x="${x}" y="${y-11}" width="13" height="13" fill="${root.color.fill}" stroke="#999" stroke-width=".6"/>`;
+    const rootName=String(root.name||'').trim();
+    const label=rootName.startsWith(`${root.code}.`)||rootName===root.code?rootName:`${root.code}. ${rootName}`;
+    const limit=colW>210?27:colW>150?21:16;
+    svg+=svgText(x+19,y,label.length>limit?label.slice(0,limit-1)+'…':label,10,'#303030',500);
+  }
+  if(roots.length>legendCount){svg+=svgText(legendStartX,104+legendRows*21,`+ ${roots.length-legendCount} flere WBS-grupper`,10,'#596575',400);}
+  const legendLineY=Math.max(181,104+legendRows*21+10);
+  svg+=`<path d="M 205 ${legendLineY} H 246" stroke="#d10f0f" stroke-width="3" fill="none" marker-end="url(#arrow-critical)"/>`;
+  svg+=svgText(254,legendLineY+4,'Kritisk sti (slakk = 0)',10,'#303030',500);
+  const sampleColor=roots[0]?.color.line||'#666666';
+  svg+=`<path d="M 395 ${legendLineY} H 436" stroke="${sampleColor}" stroke-width="2" fill="none" marker-end="url(#arrow-package-0)"/>`;
+  svg+=svgText(444,legendLineY+4,'Andre avhengigheter bruker fargen til WBS-pakken',10,'#303030',500);
+  svg+=`<line x1="25" y1="${plotTop-14}" x2="${width-25}" y2="${plotTop-14}" stroke="#d7dce2"/>`;
+  // Draw orthogonal dependency arrows first, so they remain behind the activity nodes.
+  for(const id of ids){
+    for(const pred of calculation.preds.get(id)||[]){
+      const a=coords[pred],b=coords[id];if(!a||!b)continue;
+      const x1=a.x+nodeW,y1=a.y+nodeH/2,x2=b.x,y2=b.y+nodeH/2;
+      const midX=x1+(x2-x1)/2;
+      const isCriticalEdge=cpEdges.has(`${pred}->${id}`);
+      const cat=infoFor(pred);const stroke=isCriticalEdge?'#d10f0f':cat.color.line;
+      const marker=isCriticalEdge?'arrow-critical':`arrow-package-${cat.index}`;
+      svg+=`<path d="M ${x1} ${y1} H ${midX} V ${y2} H ${x2}" fill="none" stroke="${stroke}" stroke-width="${isCriticalEdge?2.8:1.6}" marker-end="url(#${marker})"/>`;
+    }
+  }
+  // Activity nodes follow the reference's 3-cell / activity / 3-cell layout.
+  for(const id of ids){
+    const item=getItem(id),r=calculation.items.get(id),c=coords[id],category=infoFor(id),code=wbsCode(id);
+    const cellW=nodeW/3;
+    const topVals=[fmt(r.es),fmt(r.duration),fmt(r.ef)];
+    const bottomVals=[fmt(r.ls),fmt(r.slack),fmt(r.lf)];
+    const topFills=['#8CCB64','#D7D7D7','#8CCB64'];
+    const bottomFills=['#19B8E8','#F5A052','#19B8E8'];
+    svg+=`<g class="cp-node" data-node-id="${escapeHtml(id)}" transform="translate(${c.x} ${c.y})" style="cursor:grab"><title>${escapeXml(code+' · '+item.name)} | ES ${fmt(r.es)}, DR ${fmt(r.duration)}, EF ${fmt(r.ef)}, LS ${fmt(r.ls)}, TF ${fmt(r.slack)}, LF ${fmt(r.lf)}</title>`;
+    topVals.forEach((v,i)=>{const x=i*cellW;svg+=`<rect x="${x}" y="0" width="${cellW}" height="${topH}" fill="${topFills[i]}" stroke="#222" stroke-width=".8"/>`;svg+=svgText(x+cellW/2,14,v,10,'#111',500,'middle');});
+    svg+=`<rect x="0" y="${topH}" width="${nodeW}" height="${midH}" fill="${category.color.fill}" stroke="#222" stroke-width=".8"/>`;
+    svg+=svgText(nodeW/2,topH+14,code,12,'#111',750,'middle');
+    const shortName=item.name.length>23?item.name.slice(0,22)+'…':item.name;
+    svg+=svgText(nodeW/2,topH+28,shortName,8.5,'#222',500,'middle');
+    bottomVals.forEach((v,i)=>{const x=i*cellW;svg+=`<rect x="${x}" y="${topH+midH}" width="${cellW}" height="${botH}" fill="${bottomFills[i]}" stroke="#222" stroke-width=".8"/>`;svg+=svgText(x+cellW/2,topH+midH+14,v,10,'#111',500,'middle');});
+    svg+='</g>';
+  }
+  svg+='</svg>';
+  $('networkChart').innerHTML=`<div style="min-width:${width}px">${svg}</div>`;
+  const fullPath=cp.map(id=>`${wbsCode(id)} (${getItem(id)?.name||id})`).join(' → ');
+  $('networkSummary').innerHTML=`<span class="chip">Total varighet: <strong>${fmt(calculation.duration)} arbeidsdager</strong></span><span class="chip">Kritiske aktiviteter: <strong>${calculation.critical.length}</strong></span><span class="chip" title="${escapeHtml(fullPath)}">Kritisk sti: <strong>${escapeHtml(cp.map(wbsCode).join(' → ')||'–')}</strong></span>`;
+  attachNetworkDrag(coords);
+}
+function attachNetworkDrag(coords){
+  const root=$('networkChart').querySelector('svg');if(!root||!calculation?.ok)return;
+  let dragging=null,start=null,activeGroup=null;
+  root.addEventListener('pointerdown',ev=>{
+    const group=ev.target.closest?.('[data-node-id]');if(!group)return;
+    const id=group.getAttribute('data-node-id');if(!coords[id])return;
+    const pt=root.createSVGPoint();pt.x=ev.clientX;pt.y=ev.clientY;const p=pt.matrixTransform(root.getScreenCTM().inverse());
+    dragging=id;activeGroup=group;start={pointerX:p.x,pointerY:p.y,x:coords[id].x,y:coords[id].y};
+    group.style.cursor='grabbing';try{root.setPointerCapture(ev.pointerId)}catch(e){};
+    ev.preventDefault();
+  });
+  root.addEventListener('pointermove',ev=>{
+    if(!dragging||!start||!activeGroup)return;
+    const pt=root.createSVGPoint();pt.x=ev.clientX;pt.y=ev.clientY;const p=pt.matrixTransform(root.getScreenCTM().inverse());
+    const nx=Math.max(24,start.x+p.x-start.pointerX),ny=Math.max(220,start.y+p.y-start.pointerY);
+    activeGroup.setAttribute('transform',`translate(${nx} ${ny})`);
+  });
+  const finish=()=>{
+    if(!dragging||!start||!activeGroup)return;
+    const match=activeGroup.getAttribute('transform')?.match(/translate\(([-\d.]+)[ ,]+([-\d.]+)\)/);
+    if(match){project.networkPositions[dragging]={x:Number(match[1]),y:Number(match[2])};}
+    dragging=null;start=null;activeGroup=null;saveLocal();renderNetwork();
+  };
+  root.addEventListener('pointerup',finish);root.addEventListener('pointercancel',finish);
+}
+function renderGantt(){
+  if(!calculation?.ok||!calculation.sched.length){$('ganttChart').innerHTML=`<div class="empty"><strong>${calculation?.errors?.length?'Tidsplanen kan ikke beregnes':'Ingen tidsplan ennå'}</strong>${calculation?.errors?.length?'Rett feilene under WBS først.':'Legg til aktiviteter og angi PERT-estimater, eller last eksempelprosjektet.'}</div>`;$('ganttSummary').innerHTML='';return;}
+  const hRows=hierarchy().filter(x=>x.item.kind!=='group');
+  const order=hRows.map(x=>x.item).filter(i=>calculation.items.has(i.id));
+  const rowH=48,headH=82,left=340,right=44,axisWidth=Math.max(760,calculation.duration*48),width=left+axisWidth+right,height=headH+order.length*rowH+25,top=headH;
+  let svg=`<svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${height}" viewBox="0 0 ${width} ${height}" role="img" aria-label="Gantt-diagram"> <rect width="100%" height="100%" fill="#fff"/>`;
+  svg+=`<rect x="0" y="0" width="${width}" height="${headH}" fill="#f7f9fb"/><line x1="${left}" y1="0" x2="${left}" y2="${height-15}" stroke="#d7dce2" stroke-width="1.2"/>`;
+  svg+=svgText(14,28,'Aktivitet',12,'#586575',700)+svgText(14,49,'WBS-kode · ID',10,'#788493',500);
+  svg+=svgText(left+14,26,'Tidslinje',12,'#586575',700)+svgText(left+14,45,'Arbeidsdager fra prosjektstart',10,'#788493',500);
+  const tickStep=calculation.duration>100?15:calculation.duration>60?10:calculation.duration>30?5:calculation.duration>15?3:calculation.duration>8?2:1;
+  for(let t=0;t<=calculation.duration+1e-6;t+=tickStep){
+    const x=left+(t/Math.max(calculation.duration,1))*axisWidth,dt=dateAtOffset(project.startDate,t);
+    svg+=`<line x1="${x}" y1="${headH}" x2="${x}" y2="${height-15}" stroke="#e1e7ed" stroke-dasharray="3 3"/>`;
+    svg+=svgText(x+4,63,`Dag ${fmt(t+1)}`,9,'#596575',600);
+    svg+=svgText(x+4,76,formatDate(dt),8.5,'#788493',400);
+  }
+  if(!calculation.duration){svg+=svgText(left+8,100,'Prosjektet har ingen varighet ennå',11,'#667383');}
+  order.forEach((it,idx)=>{
+    const y=top+idx*rowH,r=calculation.items.get(it.id),isMil=it.kind==='milestone',isCrit=r.critical;
+    svg+=`<rect x="0" y="${y}" width="${width}" height="${rowH}" fill="${idx%2?'#fff':'#fbfcfd'}"/><line x1="0" y1="${y+rowH}" x2="${width}" y2="${y+rowH}" stroke="#e8edf1"/>`;
+    const label=it.name.length>44?it.name.slice(0,43)+'…':it.name;
+    svg+=svgText(14,y+21,label,11,'#293441',600);
+    svg+=svgText(14,y+37,`${getWbsCode(it)} · ${it.id}`,9,'#788493',400);
+    if(isMil){
+      const x=left+(r.es/Math.max(calculation.duration,1))*axisWidth;
+      svg+=`<polygon points="${x},${y+12} ${x+8},${y+22} ${x},${y+32} ${x-8},${y+22}" fill="#d6942c" stroke="#a96a10"/>`;
+      svg+=svgText(Math.min(width-8,x+14),y+26,formatDate(dateAtOffset(project.startDate,r.es)),9,'#87500e',500);
+    }else{
+      const x=left+(r.es/Math.max(calculation.duration,1))*axisWidth;
+      const w=Math.max(3,(r.duration/Math.max(calculation.duration,1))*axisWidth);
+      const color=isCrit?'#c73535':'#477ce5';
+      svg+=`<rect x="${x}" y="${y+11}" width="${w}" height="25" rx="4" fill="${color}" opacity=".96"><title>${escapeXml(it.name)}: ${fmt(r.duration)} arbeidsdager</title></rect>`;
+      if(w>68)svg+=svgText(x+7,y+27,`${fmt(r.duration)} d`,10,'#fff',700);
+    }
+  });
+  svg+='</svg>';
+  $('ganttChart').innerHTML=`<div style="min-width:${width}px">${svg}</div>`;
+  $('ganttSummary').innerHTML=`<span class="chip">Start: <strong>${formatDate(new Date(`${project.startDate}T12:00:00`))}</strong></span><span class="chip">Slutt: <strong>${formatDate(dateAtOffset(project.startDate,Math.max(0,Math.ceil(calculation.duration)-1)))}</strong></span><span class="chip">Varighet: <strong>${fmt(calculation.duration)} arbeidsdager</strong></span>`;
+}
+function renderExportStatus(){const e=calculation?.errors?.length||0,w=calculation?.warnings?.length||0;$('exportStatus').className='notice '+(e?'error':w?'warn':'success');$('exportStatus').innerHTML=e?`Prosjektet har <strong>${e} feil</strong>. Rett disse før du stoler på beregnet kritisk sti eller Gantt.`:w?`Prosjektet kan beregnes, men har <strong>${w} advarsel${w>1?'er':''}</strong> som bør kontrolleres.`:'Prosjektet kan beregnes uten registrerte feil eller advarsler.';}
+function renderAll(){ $('projectName').value=project.name;$('projectStart').value=project.startDate;$('workingWeek').value=project.workingWeek||'mon-fri';renderWbs();renderEditor();renderValidation();renderNetwork();renderGantt();renderExportStatus();document.querySelectorAll('.tab').forEach(t=>t.classList.toggle('active',t.dataset.tab===currentTab));document.querySelectorAll('.view').forEach(v=>{v.classList.toggle('hidden',v.id!==`${currentTab}View`);v.classList.toggle('active',v.id===`${currentTab}View`);});}
+function setTab(tab){currentTab=tab;document.querySelectorAll('.tab').forEach(t=>t.classList.toggle('active',t.dataset.tab===tab));document.querySelectorAll('.view').forEach(v=>{v.classList.toggle('hidden',v.id!==`${tab}View`);v.classList.toggle('active',v.id===`${tab}View`);});if(tab==='network')renderNetwork();if(tab==='gantt')renderGantt();}
+function downloadBlob(blob,name){const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download=name;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),1000)}
+function safeFileBase(){return (project.name||'wbs-prosjekt').toLowerCase().replace(/[^a-z0-9æøå_-]+/gi,'-').replace(/^-+|-+$/g,'')||'wbs-prosjekt'}
+function exportJSON(){downloadBlob(new Blob([JSON.stringify(project,null,2)],{type:'application/json;charset=utf-8'}),safeFileBase()+'.json');toast('Prosjektfil eksportert.');}
+function csvCell(s){return '"'+String(s??'').replace(/"/g,'""')+'"'}
+function exportCSV(){const header=['ID','WBS','Navn','Type','Beskrivelse','Overordnet ID','Ansvarlig','Optimistisk (O)','Mest sannsynlig (M)','Pessimistisk (P)','PERT-varighet (arbeidsdager)','Standardavvik (arbeidsdager)','Forgjengere','Tidligste start (arbeidsdager etter prosjektstart)','Tidligste slutt (arbeidsdager etter prosjektstart)','Slakk (arbeidsdager)','Kritisk'];const rows=hierarchy().map(({item,code})=>{const r=calculation?.items?.get(item.id);return [item.id,code,item.name,kindName(item.kind),item.description,item.parentId,item.owner,item.kind==='task'?item.o:'',item.kind==='task'?item.m:'',item.kind==='task'?item.p:'',item.kind==='task'?estimate(item):item.kind==='milestone'?0:'',item.kind==='task'?standardDeviation(item):item.kind==='milestone'?0:'',(item.predecessors||[]).join(', '),r?.es??'',r?.ef??'',r?.slack??'',r?.critical?'Ja':'Nei']});const csv='\uFEFF'+[header,...rows].map(row=>row.map(csvCell).join(';')).join('\r\n');downloadBlob(new Blob([csv],{type:'text/csv;charset=utf-8'}),safeFileBase()+'.csv');toast('CSV-fil eksportert.');}
+// A minimal, dependency-free XLSX writer using uncompressed ZIP records and inline strings.
+function crc32(bytes){let crc=0xffffffff;for(const b of bytes){crc^=b;for(let k=0;k<8;k++)crc=(crc>>>1)^((crc&1)?0xedb88320:0);}return (crc^0xffffffff)>>>0}
+function u16(n){return [n&255,(n>>>8)&255]}function u32(n){return [n&255,(n>>>8)&255,(n>>>16)&255,(n>>>24)&255]}
+function concatBytes(arrays){const len=arrays.reduce((n,a)=>n+a.length,0),out=new Uint8Array(len);let o=0;for(const a of arrays){out.set(a,o);o+=a.length;}return out}
+function zipStore(files){const enc=new TextEncoder(),locals=[],centrals=[];let offset=0;for(const file of files){const name=enc.encode(file.name),data=typeof file.data==='string'?enc.encode(file.data):file.data,crc=crc32(data);const local=concatBytes([new Uint8Array([0x50,0x4b,0x03,0x04]),new Uint8Array([...u16(20),...u16(0),...u16(0),...u16(0),...u16(0),...u32(crc),...u32(data.length),...u32(data.length),...u16(name.length),...u16(0)]),name,data]);locals.push(local);const central=concatBytes([new Uint8Array([0x50,0x4b,0x01,0x02]),new Uint8Array([...u16(20),...u16(20),...u16(0),...u16(0),...u16(0),...u16(0),...u32(crc),...u32(data.length),...u32(data.length),...u16(name.length),...u16(0),...u16(0),...u16(0),...u16(0),...u32(0),...u32(offset)]),name]);centrals.push(central);offset+=local.length;}const cd=concatBytes(centrals),end=new Uint8Array([0x50,0x4b,0x05,0x06,...u16(0),...u16(0),...u16(files.length),...u16(files.length),...u32(cd.length),...u32(offset),...u16(0)]);return concatBytes([...locals,cd,end])}
+function colName(n){let s='';while(n>0){let r=(n-1)%26;s=String.fromCharCode(65+r)+s;n=Math.floor((n-1)/26)}return s}
+function xmlEscape(s){return String(s??'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&apos;')}
+function exportXlsx(){if(!calculation?.ok){toast('Rett valideringsfeil før du eksporterer Excel.',true);return}const headers=['ID','WBS','Navn','Type','Beskrivelse','Overordnet ID','Ansvarlig','O','M','P','PERT-varighet (arbeidsdager)','Standardavvik (arbeidsdager)','Forgjengere','Tidligste start (arbeidsdager)','Tidligste slutt (arbeidsdager)','Slakk (arbeidsdager)','Kritisk'];const rows=[headers,...hierarchy().map(({item,code})=>{const r=calculation.items.get(item.id);return [item.id,code,item.name,kindName(item.kind),item.description,item.parentId,item.owner,item.kind==='task'?item.o:'',item.kind==='task'?item.m:'',item.kind==='task'?item.p:'',item.kind==='group'?'':estimate(item),item.kind==='task'?standardDeviation(item):item.kind==='milestone'?0:'',(item.predecessors||[]).join(', '),r?.es??'',r?.ef??'',r?.slack??'',r?.critical?'Ja':'Nei']})];const sheetRows=rows.map((row,ri)=>`<row r="${ri+1}">${row.map((v,ci)=>{const ref=colName(ci+1)+(ri+1);if(typeof v==='number'&&Number.isFinite(v))return `<c r="${ref}"><v>${v}</v></c>`;return `<c r="${ref}" t="inlineStr"><is><t xml:space="preserve">${xmlEscape(v)}</t></is></c>`}).join('')}</row>`).join('');const sheet=`<?xml version="1.0" encoding="UTF-8" standalone="yes"?><worksheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main"><sheetData>${sheetRows}</sheetData><autoFilter ref="A1:${colName(headers.length)}${rows.length}"/></worksheet>`;const files=[{name:'[Content_Types].xml',data:'<?xml version="1.0" encoding="UTF-8"?><Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types"><Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/><Default Extension="xml" ContentType="application/xml"/><Override PartName="/xl/workbook.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet.main+xml"/><Override PartName="/xl/worksheets/sheet1.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.worksheet+xml"/></Types>'},{name:'_rels/.rels',data:'<?xml version="1.0" encoding="UTF-8"?><Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument" Target="xl/workbook.xml"/></Relationships>'},{name:'xl/workbook.xml',data:'<?xml version="1.0" encoding="UTF-8"?><workbook xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships"><sheets><sheet name="WBS og tidsplan" sheetId="1" r:id="rId1"/></sheets></workbook>'},{name:'xl/_rels/workbook.xml.rels',data:'<?xml version="1.0" encoding="UTF-8"?><Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/worksheet" Target="worksheets/sheet1.xml"/></Relationships>'},{name:'xl/worksheets/sheet1.xml',data:sheet}];downloadBlob(new Blob([zipStore(files)],{type:'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'}),safeFileBase()+'.xlsx');toast('Excel-arbeidsbok eksportert.');}
+function getActiveSvg(containerId){const svg=$(containerId).querySelector('svg');if(!svg){toast('Det finnes ikke et diagram å eksportere ennå.',true);return null;}const clone=svg.cloneNode(true);clone.setAttribute('xmlns','http://www.w3.org/2000/svg');return new XMLSerializer().serializeToString(clone)}
+function exportSVG(type){if(!calculation?.ok){toast('Rett valideringsfeil før du eksporterer diagrammet.',true);return}const id=type==='gantt'?'ganttChart':'networkChart';const svg=getActiveSvg(id);if(!svg)return;downloadBlob(new Blob([svg],{type:'image/svg+xml;charset=utf-8'}),safeFileBase()+'-'+type+'.svg');toast('SVG-diagram eksportert.');}
+function exportPNG(type){if(!calculation?.ok){toast('Rett valideringsfeil før du eksporterer diagrammet.',true);return}const id=type==='gantt'?'ganttChart':'networkChart';const svg=getActiveSvg(id);if(!svg)return;const blob=new Blob([svg],{type:'image/svg+xml;charset=utf-8'}),url=URL.createObjectURL(blob),img=new Image();img.onload=()=>{const scale=2,canvas=document.createElement('canvas');canvas.width=img.width*scale;canvas.height=img.height*scale;const ctx=canvas.getContext('2d');ctx.fillStyle='#fff';ctx.fillRect(0,0,canvas.width,canvas.height);ctx.scale(scale,scale);ctx.drawImage(img,0,0);canvas.toBlob(out=>{if(out)downloadBlob(out,safeFileBase()+'-'+type+'.png');else toast('PNG-eksport feilet.',true);URL.revokeObjectURL(url)},'image/png')};img.onerror=()=>{URL.revokeObjectURL(url);toast('Kunne ikke lage PNG fra diagrammet.',true)};img.src=url;}
+function loadExampleProject(){if(project.items.length&&!confirm('Laste eksempelprosjekt? Nåværende prosjekt erstattes.'))return;project=demoProject();selectedId=project.items.find(i=>i.kind==='task')?.id||null;project.networkPositions={};recompute(true);renderAll();setTab('wbs');toast('Eksempelprosjekt er lastet.');}
+function createNewProject(){if(!confirm('Opprette et nytt prosjekt? Husk å eksportere prosjektet først hvis du vil beholde en kopi.'))return;project=newProject('Nytt prosjekt');selectedId=null;networkPositions={};recompute(true);renderAll();setTab('wbs');toast('Nytt prosjekt er opprettet.');}
+function openProjectFile(file){const reader=new FileReader();reader.onload=()=>{try{project=normalizeProject(JSON.parse(reader.result));selectedId=null;recompute(true);renderAll();setTab('wbs');toast('Prosjektet er åpnet.');}catch(e){toast('Kunne ikke åpne filen: '+e.message,true)}};reader.onerror=()=>toast('Kunne ikke lese filen.',true);reader.readAsText(file)}
+function buildPrintReport(){
+  const ok=!!calculation?.ok;
+  const rows=hierarchy().map(({item,depth,code})=>{const r=calculation?.items?.get(item.id);return `<tr><td>${escapeHtml(code)} (${escapeHtml(item.id)})</td><td>${'&nbsp;'.repeat(depth*3)}${escapeHtml(item.name)}</td><td>${escapeHtml(kindName(item.kind))}</td><td>${item.kind==='task'?fmt(item.o):'–'}</td><td>${item.kind==='task'?fmt(item.m):'–'}</td><td>${item.kind==='task'?fmt(item.p):'–'}</td><td>${item.kind==='group'?'–':fmt(estimate(item))}</td><td>${item.kind==='task'?fmt(standardDeviation(item)):'–'}</td><td>${escapeHtml((item.predecessors||[]).join(', ')||'–')}</td><td>${r?fmt(r.es):'–'}</td><td>${r?fmt(r.ef):'–'}</td><td>${r?fmt(r.slack):'–'}</td><td>${r?.critical?'Ja':'Nei'}</td></tr>`}).join('');
+  const gantt=ok?getActiveSvg('ganttChart')||'':'<p>Gantt-diagrammet kunne ikke beregnes. Kontroller valideringsfeilene i appen.</p>';
+  const critical=ok?calculation.topo.filter(id=>calculation.items.get(id).critical).map(id=>{const i=getItem(id),r=calculation.items.get(id);return `${i.name} (${fmt(r.duration)} d)`}).join(' → '):'Kan ikke beregnes før feilene er rettet.';
+  $('printReport').innerHTML=`<h1 class="report-title">${escapeHtml(project.name||'WBS-prosjekt')}</h1><div class="report-meta">Planlagt start: ${formatDate(new Date(`${project.startDate}T12:00:00`))} · Generert ${formatDate(new Date())} · Tidsenhet: arbeidsdager (mandag–fredag)</div><div class="report-section"><h2>Prosjektoversikt</h2><p>Arbeidspakker: ${project.items.filter(i=>i.kind==='task').length} · Milepæler: ${project.items.filter(i=>i.kind==='milestone').length} · Forventet varighet: ${ok?fmt(calculation.duration)+' arbeidsdager':'ikke tilgjengelig'} · Kritiske aktiviteter: ${ok?calculation.critical.length:'–'}</p><p><strong>Kritisk sti:</strong> ${escapeHtml(critical)}</p>${ok?'':'<p>Prosjektet har valideringsfeil, så tidsplandataene kan være ufullstendige.</p>'}</div><div class="report-section"><h2>WBS og PERT-estimater</h2><table class="report-table"><thead><tr><th>WBS/ID</th><th>Element</th><th>Type</th><th>O</th><th>M</th><th>P</th><th>PERT (d)</th><th>SD (d)</th><th>Forgjengere</th><th>ES</th><th>EF</th><th>Slakk</th><th>Kritisk</th></tr></thead><tbody>${rows||'<tr><td colspan="13">Ingen elementer</td></tr>'}</tbody></table><p class="report-small">PERT = (O + 4 × M + P) / 6. SD = (P − O) / 6. ES/EF og slakk beregnes ut fra avhengigheter og arbeidsdager; ressursbegrensninger er ikke inkludert.</p></div><div class="report-section"><h2>Gantt-diagram</h2><div class="report-gantt">${gantt}</div></div>`;
+}
+function bindEvents(){document.querySelectorAll('.tab').forEach(t=>t.addEventListener('click',()=>setTab(t.dataset.tab)));$('addTaskBtn').addEventListener('click',()=>addItem('task'));$('addGroupBtn').addEventListener('click',()=>addItem('group'));$('addMilestoneBtn').addEventListener('click',()=>addItem('milestone'));$('itemForm').addEventListener('submit',saveItemFromForm);$('itemKind').addEventListener('change',()=>{const newKind=$('itemKind').value;const existing=getItem(selectedId);if(newKind==='task'&&existing&&existing.kind!=='task'&&cleanNumber($('itemO').value)===0&&cleanNumber($('itemM').value)===0&&cleanNumber($('itemP').value)===0){$('itemO').value='1';$('itemM').value='2';$('itemP').value='3';}updateKindFields();});$('cancelEditBtn').addEventListener('click',()=>{renderEditor();toast('Redigering avbrutt.');});$('deleteItemBtn').addEventListener('click',deleteSelected);$('newProjectBtn').addEventListener('click',createNewProject);$('demoBtn').addEventListener('click',loadExampleProject);$('emptyDemoBtn').addEventListener('click',loadExampleProject);$('exportProjectBtn').addEventListener('click',exportJSON);$('jsonExportBtn').addEventListener('click',exportJSON);$('csvExportBtn').addEventListener('click',exportCSV);$('xlsxExportBtn').addEventListener('click',exportXlsx);$('importProjectInput').addEventListener('change',e=>{if(e.target.files?.[0])openProjectFile(e.target.files[0]);e.target.value=''});$('projectName').addEventListener('change',()=>{project.name=$('projectName').value.trim()||'Nytt prosjekt';saveLocal();renderExportStatus()});$('projectStart').addEventListener('change',()=>{project.startDate=$('projectStart').value||todayISO();recompute(true);renderAll()});$('workingWeek').addEventListener('change',()=>{project.workingWeek='mon-fri';saveLocal()});$('resetNetworkBtn').addEventListener('click',()=>{project.networkPositions={};saveLocal();renderNetwork();toast('Diagramoppsettet er tilbakestilt.');});$('networkSvgBtn').addEventListener('click',()=>exportSVG('network'));$('networkPngBtn').addEventListener('click',()=>exportPNG('network'));$('ganttSvgBtn').addEventListener('click',()=>exportSVG('gantt'));$('ganttPngBtn').addEventListener('click',()=>exportPNG('gantt'));$('ganttSvgExport2').addEventListener('click',()=>exportSVG('gantt'));$('networkSvgExport2').addEventListener('click',()=>exportSVG('network'));$('ganttPngExport2').addEventListener('click',()=>exportPNG('gantt'));$('networkPngExport2').addEventListener('click',()=>exportPNG('network'));$('printBtn').addEventListener('click',()=>{renderNetwork();renderGantt();buildPrintReport();window.print()});}
+function isUntouchedLegacyExample(p){
+  try{
+    if(!p||p.name!=='Eksempel: Planlegge en nettside'||!Array.isArray(p.items)||p.items.length!==13||Object.keys(p.networkPositions||{}).length)return false;
+    const base=demoProject();
+    const sig=x=>JSON.stringify(x.items.map(i=>({id:i.id,kind:i.kind,name:i.name,parentId:i.parentId,o:i.o,m:i.m,p:i.p,predecessors:i.predecessors||[]})));
+    return sig(normalizeProject(p))===sig(base);
+  }catch(e){return false;}
+}
+function init(){
+  try{
+    const raw=localStorage.getItem(STORAGE_KEY);
+    if(raw){project=normalizeProject(JSON.parse(raw));}
+    else{
+      // Skip the untouched example automatically saved by the previous MVP version.
+      // Preserve a genuinely edited legacy project where possible.
+      const legacyRaw=localStorage.getItem(LEGACY_STORAGE_KEY);
+      if(legacyRaw){const legacy=normalizeProject(JSON.parse(legacyRaw));project=isUntouchedLegacyExample(legacy)?newProject('Nytt prosjekt'):legacy;}
+      else project=newProject('Nytt prosjekt');
+    }
+  }catch(e){project=newProject('Nytt prosjekt');}
+  selectedId=project.items[3]?.id||project.items[0]?.id||null;
+  if(!project.items.length)selectedId=null;
+  recompute(true);bindEvents();renderAll();setTab('wbs');
+}
+init();
+})();
+</script>
+</body>
+</html>

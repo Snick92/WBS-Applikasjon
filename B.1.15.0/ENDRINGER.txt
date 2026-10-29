@@ -1,0 +1,11 @@
+WBS Planlegger B.1.15 – Fase 3.2 (testversjon)
+
+- Ortonogonal hindringsbevisst ruting: prøver alternative vertikale kanaler og omveier, prioriterer ruter utenom aktivitetsbokser.
+- Linjehopp: små buer når horisontale forbindelser krysser tidligere tegnede vertikale forbindelser.
+- Kritiske forbindelser prioriteres.
+- Linjefilter (Alle / Kun kritisk sti / Fokus) i diagramverktøylinjen.
+- Klikk aktivitet for fokus, klikk igjen eller «Fjern fokus» for å gå tilbake.
+- Eksisterende zoom, pan, PERT, Gantt, eksport og prosjektdata er beholdt.
+
+Begrensning: Dette er en heuristisk rutealgoritme, ikke garanti mot overlapp i svært tette nettverk.
+Syntakskontroll: bestått. Nettlesertest: blokkert av nettlesermiljøets lokale filtilgang.

@@ -1,0 +1,7 @@
+WBS Planlegger B.1.17 - Fase 5 (første UI-rettelser)
+
+- Rette overlapp: sticky header har nå høyere lagrekkefølge enn prosjektlinjen.
+- Justert avstand før Kildedata fra Excel.
+- Øvrig applikasjonslogikk er uendret.
+
+Dette er første tekniske del av fase 5. Resten av UX-gjennomgangen er anbefalinger, ikke implementerte funksjoner.

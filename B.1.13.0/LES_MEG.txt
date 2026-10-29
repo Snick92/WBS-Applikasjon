@@ -1,0 +1,11 @@
+WBS Planlegger B.1.13 – Fase 2
+
+Basert på B.1.12.6.
+- Sticky redigeringspanel på store skjermer; separat rulling dersom panelet er høyt.
+- O/ML/P har trinn på 1 med støtte for å skrive desimaler manuelt.
+- Kritisk sti og Gantt: zoom 5–300 %, slider, tilpass-knapp og panoreringsmodus.
+- Ctrl+musehjul zoomer i diagrammet.
+- Separate linjekanaler i kritisk sti for mindre overlapp, men komplekse nettverk kan fortsatt ha kryss.
+- Eksisterende WBS-rullefelt fra B.1.12.6 beholdt.
+
+Begrensninger: Ingen full regresjonstest med store Excel-prosjekter er gjennomført.

@@ -1,0 +1,1 @@
+B.1.15.2: Kompakt kontrollrad tett pa diagram i Kritisk sti og Gantt; fokus via klikk pa aktivitetsboks uten konflikt med panorering. Forrige versjon er ikke endret.

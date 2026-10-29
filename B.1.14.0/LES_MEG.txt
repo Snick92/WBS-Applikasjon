@@ -1,0 +1,14 @@
+WBS Planlegger B.1.14 – Fase 3
+
+Åpne WBS_Planlegger_B.1.14_Fase3.html i nettleseren. Nettleserfanen viser bare «WBS Planlegger».
+
+Nyheter:
+- Egen WBS-diagramfane med nivåfiltrering, sammenlegging av grener, to retninger, 5–300 % zoom, panorering, Tilpass og SVG/PNG-eksport.
+- Masseeksport fra Kritisk sti og Gantt: velg grupper/aktiviteter og last ned separate SVG eller PNG i én ZIP (uten ekstra nettbibliotek).
+- Gantt-aktiviteter viser start- og sluttdato i tooltip; tidsaksen hadde allerede datoer og stiplede hjelpelinjer.
+- Versjonsnummer fjernet fra nettleserfanens tittel.
+
+Begrensninger og testing:
+- Endringer i ressurs-/PERT-beregninger er ikke gjort.
+- Ved svært store prosjekter kan generering av mange høyoppløselige PNG-er bruke mye minne; prøv SVG da.
+- Test med egen Excel-import og prosjektfil før videre bruk. Oppbevar forrige stabile HTML.
